@@ -1,0 +1,115 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    google.charts.load('current', { 'packages': ['line'] });
+
+    {% autoescape off %}
+
+
+
+    google.charts.setOnLoadCallback(drawChart_confirmed);
+    google.charts.load('current', { 'packages': ['corechart'] });
+
+    function drawChart_confirmed() {
+
+        var data = new google.visualization.DataTable();
+        data.addColumn('number', 'Days since {{data.FirstDate}}'); // Implicit domain label col.
+        data.addColumn('number', '{{data.Country1}}'); // Implicit series 1 data col.
+        data.addColumn('number', '{{data.Country2}}'); // Implicit series 1 data col.
+        data.addRows({{ data.Active }} );
+
+    var chart = new google.charts.Line(document.getElementById('active_graph'));
+    var options = {
+        title: 'Comparison of active cases ',
+        curveType: 'function',
+        legend: { position: 'top' },
+        titleTextStyle: {
+        color: 'blue',    // any HTML string color ('red', '#cc00cc')
+        fontName: 'Times New Roman', // i.e. 'Times New Roman'
+        fontSize: 24, // 12, 18 whatever you want (don't specify px)
+        bold: true,    // true or false
+        italic: false   // true of false
+    }
+    };
+
+    chart.draw(data, google.charts.Line.convertOptions(options));
+          //chart.draw(data, options);
+      }
+    {% endautoescape %}
+</script>
+
+
+{% endblock head %}
+
+
+
+
+
+{% block content %}
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 p-3 m-3">
+            <div id="active_graph" style="height: 500px; width: 100%;">
+
+            </div>
+        </div>
+    </div>
+
+    <form action='/analyze'>
+        <div class="row m-4 p-4">
+
+            <div class="col-md-6  ">
+
+                <select class="browser-default custom-select my-3 " name='country1'>
+                    <option selected>Select the first country</option>
+
+                    {% for country in data.countries %}
+                    <option value="{{country.name}}">{{country.name}}</option>
+                    {% endfor %}
+
+
+                </select>
+            </div>
+
+            <div class="col-md-6  m-">
+
+                <select class="browser-default custom-select my-3" name='country2'>
+                    <option selected>Select the first country</option>
+
+                    {% for country in data.countries %}
+                    <option value="{{country.name}}">{{country.name}}</option>
+                    {% endfor %}
+
+
+                </select>
+            </div>
+
+        </div>
+
+        <div class="row ">
+            <div class="col-md-12">
+            <center>
+            <button class="btn peach-gradient" type="submit" >Submit</button>
+        </center>
+        </div>
+    </div>
+    </form>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,144 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<!-- Jumbotron -->
+<div class="card card-image"
+  style="background-image: url(https://miro.medium.com/max/2400/1*twXGppFcGdocFY7QdfUy3g.jpeg);">
+  <div class="text-white text-center rgba-stylish-strong py-5 px-4">
+    <div class="py-5">
+
+      <!-- Content -->
+      <h2 class="card-title h2 my-4 py-2">CovViz</h2>
+      <p class="mb-4 pb-2 px-md-5 mx-md-5">An online tool for analyzing COVID-19 data</p>
+
+    </div>
+  </div>
+</div>
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <center>
+        <h1 class="h1-responsive mx-5 px-5 my-5">View by Country</h1>
+        <hr>
+      </center>
+
+    </div>
+  </div>
+  <div class="row my-4">
+
+    <!-- Card -->
+    <!-- ################  Country card ######################### -->
+    {% comment %} {% for country  in all_countries %}
+    <div class="col-md-3 mx-3">
+
+
+      <div class="card card-cascade wider my-4">
+        <!-- Card image -->
+        <div class="view view-cascade gradient-card-header  blue-gradient p-4">
+          <!-- Title -->
+          <h2 class="card-header-title mb-3">{{ country.name }}</h2>
+          <!-- Text -->
+        </div>
+        <!-- Card content -->
+        <div class="card-body card-body-cascade text-center p-4">
+          <!-- Text -->
+          <p class="card-text">
+
+
+            Total Cases : {{country.total_cases}}
+            <hr>
+            Total Deseased : {{country.total_des}}
+            <hr>
+            New Cases : {{country.cases_yesterday}}
+            <hr>
+            New Deseased : {{country.des_yesterday}}
+            <hr>
+            New Recoveries : {{country.rec_yesterday}}
+            <hr>
+            Total Active : {{country.active_yesterday}}
+          </p>
+          <!-- Link -->
+          <a href="#!" class="orange-text d-flex flex-row-reverse p-2">
+            <h5 class="waves-effect waves-light">Read more<i class="fas fa-angle-double-right ml-2"></i></h5>
+          </a>
+
+        </div>
+        <!-- Card content -->
+
+      </div>
+      <!-- Card -->
+    </div>
+  </div>
+    {% endfor %} {% endcomment %}
+
+    {% for country in all_countries %}
+    <div class="col-md-3">
+      <!-- Card -->
+      <div class="card my-3" >
+
+        <!-- Card Wider -->
+        <div class="card card-cascade wider">
+
+          <!-- Card image -->
+          <div class="view view-cascade overlay">
+            <img class="card-img-top" src="{{country.flag_url}}" alt="Card image cap"  >
+            <a href="#!">
+              <div class="mask rgba-white-slight"></div>
+            </a>
+          </div>
+
+          <!-- Card content -->
+          <div class="card-body card-body-cascade text-center pb-0">
+
+            <!-- Title -->
+            <h4 class="card-title"><strong>{{ country.full_name }}</strong></h4>
+            <!-- Subtitle -->
+            <h5 class="blue-text pb-2"><strong>Total Cases : {{country.total_cases}}</strong></h5>
+            <!-- Text -->
+            <p class="card-text">
+            
+            
+            <hr>
+            Total Deseased : {{country.total_des}}
+            <hr>
+            New Cases : {{country.cases_yesterday}}
+            <hr>
+            New Deseased : {{country.des_yesterday}}
+            <hr>
+            New Recoveries : {{country.rec_yesterday}}
+            <hr>
+            Total Active : {{country.active_yesterday}}
+            
+            </p>
+
+            
+            <!-- Card footer -->
+            <div class="card-footer text-muted text-center mt-4">
+             <a href = "/extrapolate/{{country.name}}">
+             <button class="btn aqua-gradient py-2">Visualize</button>
+             </a>
+              
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Card -->
+    </div>
+      {% endfor %}
+      </div>
+
+    
+  </div>
+
+
+
+
+
+
+  <!-- Jumbotron -->
+  {% endblock content %}

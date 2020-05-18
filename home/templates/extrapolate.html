@@ -1,0 +1,141 @@
+{% extends 'layout.html' %} {% block head %}
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    google.charts.load('current', { 'packages': ['line'] });
+
+    {% autoescape off %}
+
+
+
+    google.charts.setOnLoadCallback(drawChart_confirmed);
+    google.charts.load('current', {'packages':['corechart']});
+
+    function drawChart_confirmed() {
+
+        var data = new google.visualization.DataTable();
+        data.addColumn('number', 'Days since first confirmed case'); // Implicit domain label col.
+        data.addColumn('number', 'Cases'); // Implicit series 1 data col.
+        data.addRows({{ data.Confirmed }} );
+
+    var chart = new google.charts.Line(document.getElementById('curve_chart_Confirmed'));
+    var options = {
+        title: 'Confirmed Cases with extrapolation',
+        curveType: 'function',
+        legend: { position: 'none' }
+    };
+    chart.draw(data, google.charts.Line.convertOptions(options));
+          //chart.draw(data, options);
+      }
+
+
+    google.charts.setOnLoadCallback(drawChart_Deaths);
+    function drawChart_Deaths() {
+
+        var data = new google.visualization.DataTable();
+        data.addColumn('number', 'Days since first confirmed case  Today:{{data.Today}}'); // Implicit domain label col.
+        data.addColumn('number', 'Cases'); // Implicit series 1 data col.
+        data.addRows({{ data.Deaths }} );
+
+    var chart = new google.charts.Line(document.getElementById('curve_chart_Deaths'));
+    var options = {
+        title: 'Deaths Cases ',
+        curveType: 'function',
+        legend: { position: 'none' }
+    };
+    chart.draw(data, google.charts.Line.convertOptions(options));
+          //chart.draw(data, options);
+      }
+    google.charts.setOnLoadCallback(drawChart_Recovered);
+    function drawChart_Recovered() {
+
+        var data = new google.visualization.DataTable();
+        data.addColumn('number', 'Days since first confirmed case  Today:{{data.Today}}'); // Implicit domain label col.
+        data.addColumn('number', 'Cases'); // Implicit series 1 data col.
+        data.addRows({{ data.Recovered }} );
+
+    var chart = new google.charts.Line(document.getElementById('curve_chart_Recovered'));
+    var options = {
+        title: 'Recovered Cases ',
+        curveType: 'function',
+        legend: { position: 'none' }
+    };
+    chart.draw(data, google.charts.Line.convertOptions(options));
+  //chart.draw(data, options);
+  }
+
+
+    google.charts.setOnLoadCallback(drawChart_Active);
+    function drawChart_Active() {
+
+        var data = new google.visualization.DataTable();
+        data.addColumn('number', 'Days since first confirmed case  Today:{{data.Today}}'); // Implicit domain label col.
+        data.addColumn('number', 'Cases'); // Implicit series 1 data col.
+        data.addRows({{ data.Active }} );
+
+    var chart = new google.charts.Line(document.getElementById('curve_chart_Active'));
+    var options = {
+        title: 'Active Cases ',
+        curveType: 'function',
+        legend: { position: 'none' }
+    };
+    chart.draw(data, google.charts.Line.convertOptions(options));
+  //chart.draw(data, options);
+  }
+
+
+
+
+    {% endautoescape %}
+</script>
+
+{% endblock head %} {% block content %}
+
+<div class="container-fluid">
+    <!-- Jumbotron -->
+    <div class="jumbotron text-center">
+        <!-- Title -->
+
+        <!-- Card image -->
+        <center>
+            <div class="view overlay my-4 mx-3 p-3">
+                <img src="{{ data.flag_url }}" class="img-fluid border" alt="" style="height: 200px;" />
+                <a href="#">
+                    <div class="mask rgba-white-slight"></div>
+                </a>
+            </div>
+        </center>
+
+        <h5 class="indigo-text h5 mb-4">{{data.Full_name}}</h5>
+
+        <p class="card-text">
+            <b>{{data.Subregion}}</b> <br />
+            <i>Population : </i> {{data.Population}} <br />
+            <i>First Case : </i> {{data.First_Case}} <br />
+            <!-- <i>Todays Date : </i> {{data.Today}} -->
+        </p>
+
+        <div class="row">
+            <div class="col-md-6 p-3 my-3">
+                <div id="curve_chart_Confirmed" style="height: 500px; width: 100%;"></div>
+            </div>
+            <div class="col-md-6 p-3 my-3">
+                <div id="curve_chart_Deaths" style="height: 500px; width: 100%;"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 p-3 my-3">
+                <div id="curve_chart_Recovered" style="height: 500px; width: 100%;"></div>
+            </div>
+            <div class="col-md-6 p-3 my-3">
+                <div id="curve_chart_Active" style="height: 500px; width: 100%;"></div>
+            </div>
+        </div>
+
+       
+    </div>
+    <!-- Jumbotron -->
+</div>
+
+{% endblock content %}

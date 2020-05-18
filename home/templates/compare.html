@@ -1,0 +1,49 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<div class="container">
+    <form action='/analyze'>
+        <div class="row m-4 p-4">
+
+            <div class="col-md-6  ">
+
+                <select class="browser-default custom-select my-3 " name='country1' required>
+                    <option selected>Select the first country</option>
+
+                    {% for country in countries %}
+                    <option value="{{country.name}}">{{country.full_name}}</option>
+                    {% endfor %}
+
+
+                </select>
+            </div>
+
+            <div class="col-md-6  ">
+
+                <select class="browser-default custom-select my-3" name='country2' required>
+                    <option selected>Select the first country</option>
+
+                    {% for country in countries %}
+                    <option value="{{country.name}}">{{country.full_name}}</option>
+                    {% endfor %}
+
+
+                </select>
+            </div>
+
+        </div>
+
+        <div class="row ">
+            <div class="col-md-12">
+            <center>
+            <button class="btn peach-gradient" type="submit" >Submit</button>
+        </center>
+        </div>
+    </div>
+    </form>
+</div>
+
+<br><br><br><br><br><br><br><br><br><br><br>
+
+{% endblock content %}

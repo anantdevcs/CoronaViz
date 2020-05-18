@@ -1,0 +1,49 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+
+<div class = "container"> 
+    <div class="table-responsive">
+
+  <!--Table-->
+  <table class="table m-4 p-3">
+
+    <!--Table head-->
+    <thead>
+      <tr>
+        <th> </th>
+        <th class="th-lg">Country</th>
+        <th class="th-lg">Total Cases</th>
+        <th class="th-lg">Daily New Cases</th>
+        <th class="th-lg">Precentage Increase</th>
+      </tr>
+    </thead>
+    <!--Table head-->
+
+    <!--Table body-->
+    <tbody>
+    {% comment %} {{data.Danger.0.1}} {% endcomment %}
+     {% for Country in data.Danger %}
+      <tr>
+        <th scope="row"><img src = '{{Country.0.flag_url}}' style = "max-width:100%; max-height:100%; height:auto; width:40px;"  ></th>
+        <td>{{Country.0.full_name}}</td>
+        <td>{{Country.0.total_cases}}</td>
+        <td>  {{Country.0.cases_yesterday}}  </td>
+        <td><b>{{ Country.1   }}</b></td>
+      </tr>
+      {% endfor %} 
+      
+    </tbody>
+    <!--Table body-->
+
+  </table>
+  <!--Table-->
+
+</div>
+
+
+</div>
+
+
+{% endblock content %}
