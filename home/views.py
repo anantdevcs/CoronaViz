@@ -10,7 +10,8 @@ import time
 import threading
 from scipy import interpolate
 from django.shortcuts import redirect
-
+import datetime
+from os import environ as env
 # Create your views here.
 
 
@@ -24,9 +25,11 @@ def setup_database():
     url_flag = "https://restcountries.eu/rest/v2/alpha/"
     params = {'code' : 'IND'}
     response = requests.request("GET", url, headers=headers, data = payload).json()['Countries']
+
+    print(f'Server updated at {datetime.datetime.now()}')
     for country in response:
         country_code = country['CountryCode']
-        print(country_code)
+        # print(country_code)
         if int(country['TotalConfirmed']) <= 75000:
             continue
         flg_url = requests.get(url_flag + country_code , params = params).json()['flag']
@@ -53,33 +56,18 @@ def reload():
     country_wise.objects.all().delete()
     setup_database()
 
-TIC = 1
 
-def needed():
-    file = open('home/need_to_update.txt', 'r').read()
-    if file == 'yes':
-        return True
-    else :
-        return False
 
-def update_file():
-    print("-----------------------------------------------------------------------------------")
-    open('home/need_to_update.txt', 'w').write('no')
+def update_server_if_necessary():
+    if 'update_server' not in env:
+        env['update_server'] = 'no'
+        reload()
+        threading.Timer(120, reload).start()
+    print("No need")
+
 
 def index(request) :
-    # global TIC
-    # print(f"[INFO]############### starting TIC = {TIC}")
-    # if TIC == 1:
-    #     reload()
-    #     TIC = 0
-
-    # print(f"[INFO]###############  TIC = {TIC}")   
-
-    if needed():
-        reload()
-        update_file()
-
-        
+    update_server_if_necessary()
 
 
     all_countries = country_wise.objects.all().order_by('-total_cases')[:12]
